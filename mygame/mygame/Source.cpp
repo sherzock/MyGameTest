@@ -1,59 +1,66 @@
 #include "SDL/include/SDL.h"
+
 #include <stdio.h>
+#include <stdlib.h>
+#include <stdbool.h>
 
 #pragma comment(lib, "SDL/libx86/SDL2.lib")
 #pragma comment(lib, "SDL/libx86/SDL2main.lib")
 
 
 
-//Screen dimension constants
-const int SCREEN_WIDTH = 640;
-const int SCREEN_HEIGHT = 480;
+static const int width = 800;
+static const int height = 600;
 
-
-
-int main(int argc, char* argv[])
+int main(int argc, char **argv)
 {
-	//The window we'll be rendering to
-	SDL_Window* window = NULL;
+	// Initialize SDL
+	SDL_Init(SDL_INIT_VIDEO);
 
-	//The surface contained by the window
-	SDL_Surface* screenSurface = NULL;
+	// Create a SDL window
+	SDL_Window *window = SDL_CreateWindow("SDL2TEST", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, width, height, SDL_WINDOW_OPENGL);
 
-	//Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	// Create a renderer (accelerated and in sync with the display refresh rate)
+	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, SDL_RENDERER_ACCELERATED | SDL_RENDERER_PRESENTVSYNC);
+
+	
+	bool running = true;
+	SDL_Event event;
+	while (running)
 	{
-		printf("SDL could not initialize! SDL_Error: %s\n", SDL_GetError());
-	}
-	else
-	{
-		//Create window
-		window = SDL_CreateWindow("SDL Tutorial", SDL_WINDOWPOS_UNDEFINED, SDL_WINDOWPOS_UNDEFINED, SCREEN_WIDTH, SCREEN_HEIGHT, SDL_WINDOW_SHOWN);
-		if (window == NULL)
+		// Process events
+		while (SDL_PollEvent(&event))
 		{
-			printf("Window could not be created! SDL_Error: %s\n", SDL_GetError());
+			if (event.type == SDL_QUIT)
+			{
+				running = false;
+			}
 		}
-		else
-		{
-			//Get window surface
-			screenSurface = SDL_GetWindowSurface(window);
 
-			//Fill the surface white
-			SDL_FillRect(screenSurface, NULL, SDL_MapRGB(screenSurface->format, 0, 125, 255));
+		for (int i = 0; i < 400; i++) {
+			// Clear screen with blue
+			SDL_SetRenderDrawColor(renderer, 0, 125, 255, 255);
+			SDL_RenderClear(renderer);
 
-			//Update the surface
-			SDL_UpdateWindowSurface(window);
+			// Draw
+			SDL_SetRenderDrawColor(renderer, 255, 0, 0, 255);
+			SDL_Rect rect = { 50+i, 50+i, 200, 200 };
+			SDL_RenderFillRect(renderer, &rect);
+		
+		
 
-			//Wait two seconds
-			SDL_Delay(2000);
+		// Show what was drawn
+			SDL_RenderPresent(renderer);
+
 		}
+				
+		
 	}
-	//Destroy window
+
+	// Release resources
+	SDL_DestroyRenderer(renderer);
 	SDL_DestroyWindow(window);
-
-	//Quit SDL subsystems
 	SDL_Quit();
-
 
 	return 0;
 }
