@@ -23,30 +23,38 @@ int main(int argc, char **argv)
 	// Create a renderer
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
+	bool quit = false;
+	SDL_Event close;
 
-	//move without keys
-	/*for (int i = 0; i < 400; i++) {
-		// Clear screen with blue
-		SDL_SetRenderDrawColor(renderer, 100, 120, 10, 255);
-		SDL_RenderClear(renderer);
-
-		// Draw
-		SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
-		SDL_Rect rect = { 50 + i, 50 + i, 200, 200 };
-		SDL_RenderFillRect(renderer, &rect);
+	while (!quit) {
+		while (SDL_PollEvent(&close)!= 0) {
+			if (close.type == SDL_QUIT) {
+				quit = true;
+			}
+		}
 
 
+		
+			// Clear screen with blue
+			SDL_SetRenderDrawColor(renderer, 100, 120, 10, 255);
+			SDL_RenderClear(renderer);
 
-		// Show what was drawn
-		SDL_RenderPresent(renderer);
+			// Draw
+			SDL_SetRenderDrawColor(renderer, 0, 0, 0, 255);
+			SDL_Rect rect = { 50, 50, 200, 200 };
+			SDL_RenderFillRect(renderer, &rect);
 
 
-		//delay
-		SDL_Delay(5);
 
-	}*/
+			// Show what was drawn
+			SDL_RenderPresent(renderer);
 
 
+			//delay
+			SDL_Delay(5);
+
+		
+	}
 
 
 	// Release resources
