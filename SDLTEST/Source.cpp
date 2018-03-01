@@ -24,8 +24,8 @@ int main(int argc, char **argv)
 	SDL_Renderer *renderer = SDL_CreateRenderer(window, -1, 0);
 
 
-
-	for (int i = 0; i < 400; i++) {
+	//move without keys
+	/*for (int i = 0; i < 400; i++) {
 		// Clear screen with blue
 		SDL_SetRenderDrawColor(renderer, 100, 120, 10, 255);
 		SDL_RenderClear(renderer);
@@ -44,7 +44,7 @@ int main(int argc, char **argv)
 		//delay
 		SDL_Delay(5);
 
-	}
+	}*/
 
 
 
