@@ -73,6 +73,10 @@
     <IncludePath>C:\Users\jacobogc\Documents\GitHub\MyGameTest\SDLTEST\SDL_Image\include;C:\Users\jacobogc\Documents\GitHub\MyGameTest\SDLTEST\SDL\include;$(IncludePath)</IncludePath>
     <LibraryPath>C:\Users\jacobogc\Documents\GitHub\MyGameTest\SDLTEST\SDL_Image\libx86;C:\Users\jacobogc\Documents\GitHub\MyGameTest\SDLTEST\SDL\libx86;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
+    <IncludePath>C:\Users\Jacobo_G\Documents\GitHub\MyGameTest\SDLTEST\SDL\include;C:\Users\Jacobo_G\Documents\GitHub\MyGameTest\SDLTEST\SDL_Image\include;$(IncludePath)</IncludePath>
+    <LibraryPath>C:\Users\Jacobo_G\Documents\GitHub\MyGameTest\SDLTEST\SDL\libx86;C:\Users\Jacobo_G\Documents\GitHub\MyGameTest\SDLTEST\SDL_Image\libx86;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -83,6 +87,7 @@
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
+      <AdditionalDependencies>SDL2.lib;SDL2main.lib;SDL2_image.lib;%(AdditionalDependencies)</AdditionalDependencies>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">

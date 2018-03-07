@@ -14,6 +14,7 @@ bool keyup = 0;
 bool keydown = 0;
 bool keyright = 0;
 bool keyleft = 0;
+bool space = 0;
 
 int main(int argc, char* argv[]) {
 
@@ -94,7 +95,7 @@ int main(int argc, char* argv[]) {
 					break;
 				
 				case SDLK_SPACE:
-					rectangle2 = { pos_x + size_x, pos_y + (size_y / 2) - 4, 20, 10 };
+					space = false;
 					break;
 				}
 			}
@@ -120,11 +121,11 @@ int main(int argc, char* argv[]) {
 					break;
 				
 				case SDLK_SPACE:
+					space = true;
 					break;
 				}
 			}
 		}
-
 		//setting movement
 		if (keyup && (rectangle.y >= 0)) { pos_y -= 1; }
 
@@ -133,6 +134,8 @@ int main(int argc, char* argv[]) {
 		if (keyright && (rectangle.x <= SCREEN_WIDTH - size_x)) { pos_x += 1; }
 
 		if (keyleft && (rectangle.x >= 0)) { pos_x -= 1; }
+
+		if (space) {rectangle2 = { pos_x + size_x, pos_y + (size_y / 2) - 4, 20, 10 };}
 
 		rectangle2.x +=2;
 		if (rectangle2.x <= SCREEN_WIDTH) {
