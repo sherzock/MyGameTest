@@ -1,14 +1,15 @@
 #include "SDL/include/SDL.h"
 #include "SDL_Image/include/SDL_image.h"
+#include "SDL2_mixer/include/SDL_mixer.h"
 #include <string>
 
 #pragma comment(lib, "SDL/libx86/SDL2.lib")
 #pragma comment(lib, "SDL/libx86/SDL2main.lib")
 #pragma comment(lib, "SDL_Image/libx86/SDL2_image.lib")
-
+#pragma comment(lib, "SDL2_mixer/libx86/SDL2_mixer.lib")
 
 //Screen dimension constants
-const int SCREEN_WIDTH = 640;
+const int SCREEN_WIDTH = 1440;
 const int SCREEN_HEIGHT = 480;
 
 bool Initialize();
@@ -90,16 +91,16 @@ int main(int argc, char* argv[]) {
 				case SDL_KEYDOWN:
 					switch (e.key.keysym.sym)
 					{
-					case SDLK_UP:
+					case SDLK_w:
 						movement_key[UP] = 1;
 						break;
-					case SDLK_LEFT:
+					case SDLK_a:
 						movement_key[LEFT] = 1;
 						break;
-					case SDLK_DOWN:
+					case SDLK_s:
 						movement_key[DOWN] = 1;
 						break;
-					case SDLK_RIGHT:
+					case SDLK_d:
 						movement_key[RIGHT] = 1;
 						break;
 					case SDLK_SPACE:
@@ -110,16 +111,16 @@ int main(int argc, char* argv[]) {
 				case SDL_KEYUP:
 					switch (e.key.keysym.sym)
 					{
-					case SDLK_UP:
+					case SDLK_w:
 						movement_key[UP] = 0;
 						break;
-					case SDLK_LEFT:
+					case SDLK_a:
 						movement_key[LEFT] = 0;
 						break;
-					case SDLK_DOWN:
+					case SDLK_s:
 						movement_key[DOWN] = 0;
 						break;
-					case SDLK_RIGHT:
+					case SDLK_d:
 						movement_key[RIGHT] = 0;
 						break;
 					case SDLK_SPACE:
@@ -169,8 +170,8 @@ int main(int argc, char* argv[]) {
 
 			for (int i = 0; i < 10; ++i) {
 				if (bullet[i].shooting && bullet[i].bullet.x < SCREEN_WIDTH) {
-					bullet[i].bullet.x++;
-					SDL_RenderCopyEx(renderer, shoot, NULL, &bullet[i].bullet, 0, NULL, SDL_FLIP_NONE);
+					bullet[i].bullet.x += 3;
+					SDL_RenderCopyEx(renderer, shoot, NULL, &bullet[i].bullet, 360, NULL, SDL_FLIP_NONE);
 				}
 				else {
 					bullet[i].shooting = false;
@@ -180,11 +181,8 @@ int main(int argc, char* argv[]) {
 			//Update screen
 			SDL_RenderPresent(renderer);
 
-			if ((100 / FPS)>(SDL_GetTicks() - start_time))
-			{
-				SDL_Delay((100 / FPS) - (SDL_GetTicks() - start_time)); //Yay stable framerate!
-			}
-
+			//delay
+			SDL_Delay(1);
 		}
 	}
 	Close();
