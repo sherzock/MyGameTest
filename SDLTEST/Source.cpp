@@ -32,11 +32,23 @@ SDL_Texture* background = nullptr;
 SDL_Texture* ship = nullptr;
 SDL_Texture* shoot = nullptr;
 
+//The music that will be played
+Mix_Music *music = NULL;
+
+//The sound effects that will be used
+Mix_Chunk *shot = NULL;
+
 
 int main(int argc, char* argv[]) {
 
 	if (Initialize()) {
 
+		//Load music
+		music = Mix_LoadMUS("Game/music.ogg");
+		//Load sound effects
+		shot = Mix_LoadWAV("Game/shot.wav");
+
+		//textures
 		background = LoadTexture("background.png");
 		ship = LoadTexture("spaceship.png");
 		shoot = LoadTexture("laser.png");
@@ -74,6 +86,8 @@ int main(int argc, char* argv[]) {
 
 
 		int FPS = 50;
+		
+		Mix_PlayMusic(music, -1);
 
 		//While application is running
 		while (!quit)
@@ -146,9 +160,11 @@ int main(int argc, char* argv[]) {
 			}
 
 			if (movement_key[SPACE]) {
+				Mix_PlayChannel(2, shot, 0);
 				if (start_time - shooting_delay > 250) {
 					for (int i = 0; i < 10 && (start_time - shooting_delay > 250); ++i) {
 						if (!bullet[i].shooting) {
+							
 							shooting_delay = start_time;
 							bullet[i].bullet.w = 76;
 							bullet[i].bullet.h = 40;
@@ -191,7 +207,7 @@ int main(int argc, char* argv[]) {
 
 bool Initialize() {
 	//Initialize SDL
-	if (SDL_Init(SDL_INIT_VIDEO) < 0)
+	if (SDL_Init(SDL_INIT_VIDEO | SDL_INIT_AUDIO) < 0)
 	{
 		return false;
 	}
@@ -216,14 +232,30 @@ bool Initialize() {
 		{
 			return false;
 		}
+
+		//Initialize SDL_mixer
+		if(Mix_OpenAudio(22050, MIX_DEFAULT_FORMAT, 2, 4096) == -1)
+			return false;
+
 		return true;
 	}
 }
 
 void Close() {
+
+	//Free the sound effects
+	Mix_FreeChunk(shot);
+	shot = NULL;
+
+	//Free the music
+	Mix_FreeMusic(music);
+	music = NULL;
+
 	SDL_DestroyWindow(window);
 	window = nullptr;
 
+	Mix_Quit();
+	IMG_Quit();
 	SDL_Quit();
 }
 
